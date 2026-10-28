@@ -152,7 +152,7 @@ function qrSvg(text, theme, plat) {
   let dots = '';
   for (let r = 0; r < n; r++) for (let c = 0; c < n; c++)
     if (qr.isDark(r, c) && !inFinder(r, c) && !inLogo(r, c)) dots += `M${c + q + .3},${r + q + .04}h.4a.26,.26 0 0 1 .26,.26v.4a.26,.26 0 0 1 -.26,.26h-.4a.26,.26 0 0 1 -.26,-.26v-.4a.26,.26 0 0 1 .26,-.26z`;
-  const eyeAt = (x, y) => `<path fill="${eye}" fill-rule="evenodd" d="M${x + 2},${y}h3a2,2 0 0 1 2,2v3a2,2 0 0 1 -2,2h-3a2,2 0 0 1 -2,-2v-3a2,2 0 0 1 2,-2zM${x + 2},${y + 1}a1,1 0 0 0 -1,1v3a1,1 0 0 0 1,1h3a1,1 0 0 0 1,-1v-3a1,1 0 0 0 -1,-1z"/><rect fill="${eye}" x="${x + 2}" y="${y + 2}" width="3" height="3" rx="1"/>`;
+  const tint = theme.qrTint; const eyeAt = (x, y) => `<rect fill="${tint}" x="${x + 1}" y="${y + 1}" width="5" height="5" rx="1.2"/><path fill="${dark}" fill-rule="evenodd" d="M${x + 2},${y}h3a2,2 0 0 1 2,2v3a2,2 0 0 1 -2,2h-3a2,2 0 0 1 -2,-2v-3a2,2 0 0 1 2,-2zM${x + 2},${y + 1}a1,1 0 0 0 -1,1v3a1,1 0 0 0 1,1h3a1,1 0 0 0 1,-1v-3a1,1 0 0 0 -1,-1z"/><rect fill="${dark}" x="${x + 2}" y="${y + 2}" width="3" height="3" rx="1"/>`;
   let center = '';
   const cx = q + l0, cs = logo;
   center = `<rect x="${cx}" y="${cx}" width="${cs}" height="${cs}" rx="${cs * .3}" fill="#fff"/><circle cx="${cx + cs / 2}" cy="${cx + cs / 2}" r="${cs * .38}" fill="${plat.color}"/>`;
@@ -174,11 +174,11 @@ function qrSvg(text, theme, plat) {
 
 /* ---------- Themes ---------- */
 const THEMES = {
-  sky: { name: '天空蓝粉', pv: ['#CFE6F7', '#F9DCE8', '#4FA6DE'], qr: '#3E6E9A', qrEye: '#C2577F' },
-  mint: { name: '薄荷奶糖', pv: ['#CDEFE3', '#FFE7D6', '#3E9E86'], qr: '#2F7462', qrEye: '#C8735A' },
-  lavender: { name: '薰衣草雾', pv: ['#DCD5F5', '#F8DDEB', '#7D6CC8'], qr: '#5A4C9C', qrEye: '#B0649A' },
-  peach: { name: '蜜桃汽水', pv: ['#FFD9CC', '#FFE9C9', '#E0915A'], qr: '#8A4F45', qrEye: '#D06A62' },
-  night: { name: '夜空星河', pv: ['#233A55', '#3B3150', '#8CC7F0'], qr: '#2E3F5C', qrEye: '#B4517A' }
+  sky: { name: '天空蓝粉', pv: ['#CFE6F7', '#F9DCE8', '#4FA6DE'], qr: '#3E6E9A', qrEye: '#EFA0BE', qrTint: '#FCE3EC' },
+  mint: { name: '薄荷奶糖', pv: ['#CDEFE3', '#FFE7D6', '#3E9E86'], qr: '#2F7462', qrEye: '#E8A893', qrTint: '#FBE9E2' },
+  lavender: { name: '薰衣草雾', pv: ['#DCD5F5', '#F8DDEB', '#7D6CC8'], qr: '#5A4C9C', qrEye: '#D7A0C8', qrTint: '#F5E5F1' },
+  peach: { name: '蜜桃汽水', pv: ['#FFD9CC', '#FFE9C9', '#E0915A'], qr: '#8A4F45', qrEye: '#F0A69F', qrTint: '#FDE7E4' },
+  night: { name: '夜空星河', pv: ['#233A55', '#3B3150', '#8CC7F0'], qr: '#2E3F5C', qrEye: '#E795B5', qrTint: '#FBE1EB' }
 };
 function applyTheme(t) { document.documentElement.dataset.theme = THEMES[t] ? t : 'sky'; drawFlowers(); }
 const FLOWER = '<path d="M12 4.2a3.2 3.2 0 0 1 3 4.2 3.2 3.2 0 0 1 3.9 4.9 3.2 3.2 0 0 1-2.3 5.3 3.2 3.2 0 0 1-5.2 1.2 3.2 3.2 0 0 1-5.2-1.2 3.2 3.2 0 0 1-2.3-5.3A3.2 3.2 0 0 1 9 8.4a3.2 3.2 0 0 1 3-4.2z" fill="currentColor"/><circle cx="12" cy="12.6" r="1.9" fill="#fff" opacity=".85"/>';
@@ -190,6 +190,8 @@ function drawFlowers() {
     f.style.cssText = `left:${x}%;top:${y}%;width:${s}px;height:${s}px;color:var(${i % 2 ? '--f2' : '--f1'});animation-delay:${-i * .7}s`;
     box.append(f);
   });
+  [[30,14,14],[70,30,10],[4,40,12],[96,66,14],[48,88,10],[66,62,9],[30,70,11]].forEach(([x, y, s], i) => { const e = svgFrom(SPARK); e.setAttribute('class', 'sp'); e.style.cssText = `left:${x}%;top:${y}%;width:${s}px;height:${s}px;animation-delay:${-i * .5}s`; box.append(e); });
+  [[2,16,90],[78,12,70],[86,60,100],[0,84,80]].forEach(([x, y, s], i) => { const e = svgFrom(CLOUD); e.setAttribute('class', 'cl'); e.style.cssText = `left:${x}%;top:${y}%;width:${s}px;height:${s * .6}px;animation-delay:${-i * 3}s`; box.append(e); });
 }
 
 /* ---------- Backends (same interface) ---------- */
@@ -292,7 +294,12 @@ async function route() {
   app.replaceChildren(view);
   window.scrollTo({ top: 0 });
 }
-function shell(tabs, body) { return h('div', { class: 'view' }, h('nav', { class: 'tabs' }, tabs), h('section', { class: 'card' }, body)); }
+const BOW = '<path d="M12 12c-3-4-8-6-9.5-3.5S5 15 12 12zM12 12c3-4 8-6 9.5-3.5S19 15 12 12z" fill="currentColor" stroke="none" opacity=".85"/><path d="M11 12.5l-3 6.5 2.4-.6 1.1 1.8 1-7.2M13 12.5l3 6.5-2.4-.6-1.1 1.8-1-7.2" fill="currentColor" stroke="none" opacity=".7"/><circle cx="12" cy="12" r="1.9" fill="#fff" stroke="none"/>';
+const SPARK = '<path d="M12 2c.8 5.6 4.4 9.2 10 10-5.6.8-9.2 4.4-10 10-.8-5.6-4.4-9.2-10-10 5.6-.8 9.2-4.4 10-10z" fill="currentColor" stroke="none"/>';
+const CLOUD = '<path d="M6.5 19a4.5 4.5 0 0 1-.4-9A6 6 0 0 1 17.6 8.6 5.2 5.2 0 0 1 17.5 19z" fill="currentColor" stroke="none"/>';
+function deco(cls, markup) { const s = svgFrom(markup); s.setAttribute('class', 'deco ' + cls); s.setAttribute('aria-hidden', 'true'); return s; }
+function divider() { const f = () => { const s = svgFrom(FLOWER); s.setAttribute('stroke', 'none'); return s; }; return h('div', { class: 'divider', 'aria-hidden': 'true' }, h('i'), f(), f(), f(), h('i')); }
+function shell(tabs, body) { return h('div', { class: 'view' }, h('nav', { class: 'tabs' }, tabs), h('section', { class: 'card' }, h('span', { class: 'deco tape', 'aria-hidden': 'true' }), deco('bow', BOW), body)); }
 function tab(label, on, onclick) { return h('button', { class: 'tab' + (on ? ' on' : ''), onclick }, on ? h('i', { class: 'dot' }) : null, label); }
 function msgView(t, d) { applyTheme('sky'); return shell([tab('NOTICE', true)], h('div', { class: 'hero' }, h('h1', { class: 'disp' }, t), h('p', null, d), h('button', { class: 'btn main', onclick: () => location.hash = '#/' }, '回到首页'))); }
 
@@ -364,6 +371,7 @@ async function pageView(handle) {
   const body = h('div', { class: 'stag' }, bar, headBlock(p),
     h('div', { class: 'sec', id: 'about' }, h('div', { class: 'meta' }, fmtDate(p.updated_at) + ' 更新'), h('h2', { class: 'htitle disp' }, '#关于我#'),
       p.bio_html ? h('div', { class: 'bio' }, sanitize(p.bio_html)) : h('div', { class: 'empty' }, '这个人很神秘，还没有写简介～')),
+    divider(),
     h('div', { class: 'sec', id: 'links' }, h('div', { class: 'meta' }, (p.links || []).length + ' 个账号 · 扫码或点名称访问'), h('h2', { class: 'htitle disp' }, '#社交链接#'),
       (p.links || []).length ? h('div', { class: 'links' }, p.links.map(l => linkCard(l, THEMES[theme]))) : h('div', { class: 'empty' }, '还没有添加链接')),
     h('div', { class: 'foot' }, h('div', { class: 'lbl', style: 'margin-bottom:8px' }, owner ? '预览配色（保存请进入编辑）' : '换个配色预览'),
@@ -385,7 +393,7 @@ function headBlock(p) {
   if (g) chips.append(h('span', { class: 'chip' }, g));
   if (p.birthday) { chips.append(h('span', { class: 'chip' }, iconEl('cal'), bdayText(p.birthday, p.show_year)), h('span', { class: 'chip pk' }, iconEl('star'), zodiac(p.birthday))); }
   const tags = (p.tags || []).length ? h('div', { class: 'chips' }, p.tags.map(t => h('span', { class: 'chip pk' }, '# ' + t))) : null;
-  return h('div', { class: 'head' }, av, h('div', { class: 'hinfo' }, h('h1', { class: 'name disp' }, p.display_name || p.handle), h('div', { class: 'handle' }, '@' + p.handle), chips, tags));
+  return h('div', { class: 'head' }, h('div', { class: 'av-wrap' }, av, deco('s1', FLOWER.replace('fill="currentColor"','fill="currentColor" stroke="none"')), deco('s2', SPARK)), h('div', { class: 'hinfo' }, h('h1', { class: 'name disp' }, p.display_name || p.handle), h('div', { class: 'handle' }, '@' + p.handle), chips, tags));
 }
 function linkCard(l, theme) {
   const url = safeUrl(l.url); if (!url) return null;
@@ -436,7 +444,7 @@ function editView(orig) {
   document.addEventListener('selectionchange', keep);
   const restore = () => { ed.focus(); if (saved) { const s = getSelection(); s.removeAllRanges(); s.addRange(saved); } };
   const color = c => { restore(); document.execCommand('styleWithCSS', false, true); document.execCommand('foreColor', false, c); keep(); };
-  const PAL = ['#4E6478', '#E88AAE', '#F2A7C3', '#4FA6DE', '#2E9C8F', '#8B7BC8', '#E08A5B', '#8EA2B4'];
+  const PAL = ['#4E6478', '#F0A3C0', '#F7BCD2', '#4FA6DE', '#2E9C8F', '#8B7BC8', '#E08A5B', '#8EA2B4'];
   const tb = h('div', { class: 'tb', onmousedown: e => { if (e.target.tagName !== 'INPUT') e.preventDefault(); } },
     h('span', { class: 'lbl', style: 'margin:0 2px 0 0' }, '选中文字改色'),
     PAL.map(c => h('button', { class: 'sw', title: c, style: 'background:' + c, onclick: () => color(c) })),
