@@ -436,7 +436,7 @@ function editView(orig) {
   document.addEventListener('selectionchange', keep);
   const restore = () => { ed.focus(); if (saved) { const s = getSelection(); s.removeAllRanges(); s.addRange(saved); } };
   const color = c => { restore(); document.execCommand('styleWithCSS', false, true); document.execCommand('foreColor', false, c); keep(); };
-  const PAL = ['#4E6478', '#D0668E', '#E77DA3', '#4FA6DE', '#2E9C8F', '#8B7BC8', '#E08A5B', '#8EA2B4'];
+  const PAL = ['#4E6478', '#E88AAE', '#F2A7C3', '#4FA6DE', '#2E9C8F', '#8B7BC8', '#E08A5B', '#8EA2B4'];
   const tb = h('div', { class: 'tb', onmousedown: e => { if (e.target.tagName !== 'INPUT') e.preventDefault(); } },
     h('span', { class: 'lbl', style: 'margin:0 2px 0 0' }, '选中文字改色'),
     PAL.map(c => h('button', { class: 'sw', title: c, style: 'background:' + c, onclick: () => color(c) })),
