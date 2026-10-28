@@ -154,7 +154,7 @@ function qrSvg(text, theme, plat) {
   let dots = '';
   for (let r = 0; r < n; r++) for (let c = 0; c < n; c++)
     if (qr.isDark(r, c) && !inFinder(r, c) && !inLogo(r, c)) dots += `M${c + q + .3},${r + q + .04}h.4a.26,.26 0 0 1 .26,.26v.4a.26,.26 0 0 1 -.26,.26h-.4a.26,.26 0 0 1 -.26,-.26v-.4a.26,.26 0 0 1 .26,-.26z`;
-  const tint = theme.qrTint; const eyeAt = (x, y) => `<rect fill="${tint}" x="${x + 1}" y="${y + 1}" width="5" height="5" rx="1.2"/><path fill="${dark}" fill-rule="evenodd" d="M${x + 2},${y}h3a2,2 0 0 1 2,2v3a2,2 0 0 1 -2,2h-3a2,2 0 0 1 -2,-2v-3a2,2 0 0 1 2,-2zM${x + 2},${y + 1}a1,1 0 0 0 -1,1v3a1,1 0 0 0 1,1h3a1,1 0 0 0 1,-1v-3a1,1 0 0 0 -1,-1z"/><rect fill="${dark}" x="${x + 2}" y="${y + 2}" width="3" height="3" rx="1"/>`;
+  const eyeAt = (x, y) => `<path fill="${eye}" fill-rule="evenodd" d="M${x + 2},${y}h3a2,2 0 0 1 2,2v3a2,2 0 0 1 -2,2h-3a2,2 0 0 1 -2,-2v-3a2,2 0 0 1 2,-2zM${x + 2},${y + 1}a1,1 0 0 0 -1,1v3a1,1 0 0 0 1,1h3a1,1 0 0 0 1,-1v-3a1,1 0 0 0 -1,-1z"/><rect fill="${eye}" x="${x + 2}" y="${y + 2}" width="3" height="3" rx="1"/>`;
   let center = '';
   const cx = q + l0, cs = logo;
   center = `<rect x="${cx}" y="${cx}" width="${cs}" height="${cs}" rx="${cs * .3}" fill="#fff"/><circle cx="${cx + cs / 2}" cy="${cx + cs / 2}" r="${cs * .38}" fill="${plat.color}"/>`;
@@ -176,11 +176,11 @@ function qrSvg(text, theme, plat) {
 
 /* ---------- Themes ---------- */
 const THEMES = {
-  sky: { name: '天空蓝粉', pv: ['#CFE6F7', '#F9DCE8', '#4FA6DE'], qr: '#3E6E9A', qrEye: '#EFA0BE', qrTint: '#FCE3EC' },
-  mint: { name: '薄荷奶糖', pv: ['#CDEFE3', '#FFE7D6', '#3E9E86'], qr: '#2F7462', qrEye: '#E8A893', qrTint: '#FBE9E2' },
-  lavender: { name: '薰衣草雾', pv: ['#DCD5F5', '#F8DDEB', '#7D6CC8'], qr: '#5A4C9C', qrEye: '#D7A0C8', qrTint: '#F5E5F1' },
-  peach: { name: '蜜桃汽水', pv: ['#FFD9CC', '#FFE9C9', '#E0915A'], qr: '#8A4F45', qrEye: '#F0A69F', qrTint: '#FDE7E4' },
-  night: { name: '夜空星河', pv: ['#233A55', '#3B3150', '#8CC7F0'], qr: '#2E3F5C', qrEye: '#E795B5', qrTint: '#FBE1EB' }
+  sky: { name: '天空蓝粉', pv: ['#CFE6F7', '#F9DCE8', '#4FA6DE'], qr: '#3E6E9A', qrEye: '#D16F93' },
+  mint: { name: '薄荷奶糖', pv: ['#CDEFE3', '#FFE7D6', '#3E9E86'], qr: '#2F7462', qrEye: '#CA775E' },
+  lavender: { name: '薰衣草雾', pv: ['#DCD5F5', '#F8DDEB', '#7D6CC8'], qr: '#5A4C9C', qrEye: '#BA74A6' },
+  peach: { name: '蜜桃汽水', pv: ['#FFD9CC', '#FFE9C9', '#E0915A'], qr: '#8A4F45', qrEye: '#D4726A' },
+  night: { name: '夜空星河', pv: ['#233A55', '#3B3150', '#8CC7F0'], qr: '#2E3F5C', qrEye: '#C96D93' }
 };
 function applyTheme(t) { document.documentElement.dataset.theme = THEMES[t] ? t : 'sky'; drawFlowers(); }
 const WING = '<path class="wb" d="M2 18C6 6 20 1 38 3c-3 4-7 6-11 7 4 .5 7 2 9 4-4 2-8 2.5-12 2.5 3 1 5 2.5 6.5 4.5-5.5 1.5-11.5 1-16.5-.5-4 2.5-8 2.5-12-2.5z"/><path class="wa" d="M2 18C7 10 16 6.5 27 6c-3 2-6.5 3.5-10 4.3 3 .6 5.5 1.7 7.5 3.2-3.5 1.4-7 1.9-10.5 1.8 2 .9 3.6 2 4.8 3.4-4 .6-8 .3-11.8-.7z"/>';
