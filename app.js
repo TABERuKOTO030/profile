@@ -36,7 +36,8 @@ const ICONS = {
   heart: ['爱心', '<path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7a4.3 4.3 0 0 1 7.5 3c0 5.4-7.5 10-7.5 10z"/>'],
   star: ['星星', '<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>'],
   sparkle: ['闪光', '<path d="M11 3c.6 4.5 2.5 6.4 7 7-4.5.6-6.4 2.5-7 7-.6-4.5-2.5-6.4-7-7 4.5-.6 6.4-2.5 7-7zM19 15.5v5M16.5 18h5"/>'],
-  flower: ['小花', '<circle cx="12" cy="7.3" r="3"/><circle cx="16.5" cy="10.6" r="3"/><circle cx="14.8" cy="15.9" r="3"/><circle cx="9.2" cy="15.9" r="3"/><circle cx="7.5" cy="10.6" r="3"/><circle cx="12" cy="12" r="1.2"/>'],
+  wing: ['翅膀', '<path d="M3 15c2-6 8-10 18-10-1 2.2-3 3.4-5.5 3.8 2 .3 3.4 1 4.5 2.2-2 1.2-4.3 1.6-6.7 1.5 1.3.8 2.2 1.8 2.7 3-3.6.8-7.6.2-10.5-1.4L3 15z"/>'],
+  halo: ['光环', '<ellipse cx="12" cy="9" rx="8" ry="3"/><path d="M12 15.5v4M10 17.5h4"/>'],
   music: ['音乐', '<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>'],
   camera: ['相机', '<rect x="3" y="7" width="18" height="13" rx="3"/><path d="M8.5 7l1.5-2.5h4L15.5 7"/><circle cx="12" cy="13.5" r="3.5"/>'],
   cal: ['日历', '<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>'],
@@ -50,6 +51,7 @@ const ICONS = {
   moon: ['月亮', '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>']
 };
 function iconEl(name, editable) {
+  if (name === 'flower') { const e = iconEl('wing', editable); e.dataset.ic = 'flower'; return e; } // legacy token
   const s = h('span', { class: 'ic', 'data-ic': name, title: ICONS[name][0] });
   if (editable) s.setAttribute('contenteditable', 'false');
   s.append(svgFrom(ICONS[name][1])); return s;
@@ -57,7 +59,7 @@ function iconEl(name, editable) {
 
 /* ---------- Sanitizer: allowlist -> rebuilt DOM ---------- */
 const COLOR_RE = /^(#[0-9a-f]{3,8}|rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(,\s*(0|1|0?\.\d+)\s*)?\))$/i;
-const TOKEN_RE = /:(pin|excl|heart|star|sparkle|flower|music|camera|cal|clock|mail|link|check|warn|arrow|cloud|moon):/g;
+const TOKEN_RE = /:(pin|excl|heart|star|sparkle|flower|wing|halo|music|camera|cal|clock|mail|link|check|warn|arrow|cloud|moon):/g;
 function cleanColor(c) { c = (c || '').trim(); return COLOR_RE.test(c) ? c : ''; }
 // html string -> safe fragment. icons: render tokens as icon spans
 function sanitize(html, editable) {
@@ -71,7 +73,7 @@ function sanitize(html, editable) {
       if (n.nodeType !== 1) continue;
       const tag = n.tagName.toLowerCase();
       if (['script', 'style', 'iframe', 'object', 'svg', 'math', 'template', 'noscript'].includes(tag)) continue;
-      if (tag === 'span' && n.dataset && ICONS[n.dataset.ic]) { dst.append(editable ? iconEl(n.dataset.ic, true) : iconEl(n.dataset.ic)); continue; }
+      if (tag === 'span' && n.dataset && (ICONS[n.dataset.ic] || n.dataset.ic === 'flower')) { dst.append(editable ? iconEl(n.dataset.ic, true) : iconEl(n.dataset.ic)); continue; }
       let el = null;
       if (tag === 'br') { dst.append(document.createElement('br')); continue; }
       if (tag === 'b' || tag === 'strong') el = document.createElement('b');
@@ -181,13 +183,17 @@ const THEMES = {
   night: { name: '夜空星河', pv: ['#233A55', '#3B3150', '#8CC7F0'], qr: '#2E3F5C', qrEye: '#E795B5', qrTint: '#FBE1EB' }
 };
 function applyTheme(t) { document.documentElement.dataset.theme = THEMES[t] ? t : 'sky'; drawFlowers(); }
-const FLOWER = '<path d="M12 4.2a3.2 3.2 0 0 1 3 4.2 3.2 3.2 0 0 1 3.9 4.9 3.2 3.2 0 0 1-2.3 5.3 3.2 3.2 0 0 1-5.2 1.2 3.2 3.2 0 0 1-5.2-1.2 3.2 3.2 0 0 1-2.3-5.3A3.2 3.2 0 0 1 9 8.4a3.2 3.2 0 0 1 3-4.2z" fill="currentColor"/><circle cx="12" cy="12.6" r="1.9" fill="#fff" opacity=".85"/>';
+const WING = '<path class="wb" d="M2 18C6 6 20 1 38 3c-3 4-7 6-11 7 4 .5 7 2 9 4-4 2-8 2.5-12 2.5 3 1 5 2.5 6.5 4.5-5.5 1.5-11.5 1-16.5-.5-4 2.5-8 2.5-12-2.5z"/><path class="wa" d="M2 18C7 10 16 6.5 27 6c-3 2-6.5 3.5-10 4.3 3 .6 5.5 1.7 7.5 3.2-3.5 1.4-7 1.9-10.5 1.8 2 .9 3.6 2 4.8 3.4-4 .6-8 .3-11.8-.7z"/>';
+const HALO = '<ellipse class="hl" cx="20" cy="7" rx="16" ry="4.6" fill="none" stroke-width="3.2"/>';
+const FEATHER = '<path class="wb" d="M20 2C11 3 5 9.5 5 18.5 13 17.5 18.5 11 20 2z"/><path class="wa" d="M20 2C14 6 9 11 6.5 17.5 12 15 17 10 20 2z"/><path class="ql" d="M3 21.5 14.5 8" fill="none" stroke-width="1.4" stroke-linecap="round"/>';
+const WHEART = '<g class="wb"><path d="M34 14c3-6.5 8-8.5 13.5-8-1 2.5-3 3.6-5.5 4.2 2 .4 3.4 1.3 4.3 2.6-3.4 1.4-7 1.6-10.6 1.2z"/><path transform="translate(48 0) scale(-1 1)" d="M34 14c3-6.5 8-8.5 13.5-8-1 2.5-3 3.6-5.5 4.2 2 .4 3.4 1.3 4.3 2.6-3.4 1.4-7 1.6-10.6 1.2z"/></g><path class="hp" d="M24 27c-8-5.6-11-10-11-14a5.5 5.5 0 0 1 11-1.6A5.5 5.5 0 0 1 35 13c0 4-3 8.4-11 14z"/>';
+function art(vb, markup, cls) { const s = document.createElementNS(SVGNS, 'svg'); s.setAttribute('viewBox', vb); s.setAttribute('aria-hidden', 'true'); if (cls) s.setAttribute('class', cls); s.innerHTML = markup; return s; }
 function drawFlowers() {
   const box = $('.flowers'); if (box.childNodes.length) return;
   const spots = [[6,8,30],[58,6,26],[91,20,28],[10,27,24],[84,39,24],[5,50,28],[94,55,24],[8,72,26],[88,76,28],[22,92,24],[79,92,26]];
   spots.forEach(([x, y, s], i) => {
-    const f = svgFrom(FLOWER); f.setAttribute('stroke', 'none');
-    f.style.cssText = `left:${x}%;top:${y}%;width:${s}px;height:${s}px;color:var(${i % 2 ? '--f2' : '--f1'});animation-delay:${-i * .7}s`;
+    const f = i % 3 === 1 ? art('0 0 48 30', WHEART, 'wh') : art('0 0 24 24', FEATHER, 'fe');
+    f.style.cssText = `left:${x}%;top:${y}%;width:${i % 3 === 1 ? s * 1.5 : s}px;height:${s}px;animation-delay:${-i * 1.3}s;animation-duration:${9 + i % 4 * 2}s`;
     box.append(f);
   });
   [[30,14,14],[70,30,10],[4,40,12],[96,66,14],[48,88,10],[66,62,9],[30,70,11]].forEach(([x, y, s], i) => { const e = svgFrom(SPARK); e.setAttribute('class', 'sp'); e.style.cssText = `left:${x}%;top:${y}%;width:${s}px;height:${s}px;animation-delay:${-i * .5}s`; box.append(e); });
@@ -298,8 +304,8 @@ const BOW = '<path d="M12 12c-3-4-8-6-9.5-3.5S5 15 12 12zM12 12c3-4 8-6 9.5-3.5S
 const SPARK = '<path d="M12 2c.8 5.6 4.4 9.2 10 10-5.6.8-9.2 4.4-10 10-.8-5.6-4.4-9.2-10-10 5.6-.8 9.2-4.4 10-10z" fill="currentColor" stroke="none"/>';
 const CLOUD = '<path d="M6.5 19a4.5 4.5 0 0 1-.4-9A6 6 0 0 1 17.6 8.6 5.2 5.2 0 0 1 17.5 19z" fill="currentColor" stroke="none"/>';
 function deco(cls, markup) { const s = svgFrom(markup); s.setAttribute('class', 'deco ' + cls); s.setAttribute('aria-hidden', 'true'); return s; }
-function divider() { const f = () => { const s = svgFrom(FLOWER); s.setAttribute('stroke', 'none'); return s; }; return h('div', { class: 'divider', 'aria-hidden': 'true' }, h('i'), f(), f(), f(), h('i')); }
-function shell(tabs, body) { return h('div', { class: 'view' }, h('nav', { class: 'tabs' }, tabs), h('section', { class: 'card' }, h('span', { class: 'deco tape', 'aria-hidden': 'true' }), deco('bow', BOW), body)); }
+function divider() { return h('div', { class: 'divider', 'aria-hidden': 'true' }, h('i'), art('0 0 40 26', '<g transform="translate(40 0) scale(-1 1)">' + WING + '</g>', 'dl'), art('0 0 40 14', HALO, 'dh'), art('0 0 40 26', WING, 'dr'), h('i')); }
+function shell(tabs, body) { return h('div', { class: 'view' }, h('nav', { class: 'tabs' }, tabs), h('section', { class: 'card' }, h('span', { class: 'deco tape', 'aria-hidden': 'true' }), art('0 0 48 30', WHEART, 'deco bow'), body)); }
 function tab(label, on, onclick) { return h('button', { class: 'tab' + (on ? ' on' : ''), onclick }, on ? h('i', { class: 'dot' }) : null, label); }
 function msgView(t, d) { applyTheme('sky'); return shell([tab('NOTICE', true)], h('div', { class: 'hero' }, h('h1', { class: 'disp' }, t), h('p', null, d), h('button', { class: 'btn main', onclick: () => location.hash = '#/' }, '回到首页'))); }
 
@@ -387,13 +393,13 @@ function share(p) {
 function headBlock(p) {
   const av = h('div', { class: 'avatar' });
   if (p.avatar_url && (/^https:\/\//.test(p.avatar_url) || /^data:image\/(webp|png|jpeg);base64,/.test(p.avatar_url))) av.append(h('img', { src: p.avatar_url, alt: '头像', referrerpolicy: 'no-referrer' }));
-  else { const f = svgFrom(FLOWER); f.setAttribute('stroke', 'none'); f.style.width = '46%'; av.append(f); }
+  else { const f = art('0 0 48 30', WHEART, 'ph'); av.append(f); }
   const chips = h('div', { class: 'chips' });
   const g = p.gender === 'male' || p.gender === 'female' ? GENDERS[p.gender] : (p.gender && !['secret', 'custom'].includes(p.gender) ? p.gender : '');
   if (g) chips.append(h('span', { class: 'chip' }, g));
   if (p.birthday) { chips.append(h('span', { class: 'chip' }, iconEl('cal'), bdayText(p.birthday, p.show_year)), h('span', { class: 'chip pk' }, iconEl('star'), zodiac(p.birthday))); }
   const tags = (p.tags || []).length ? h('div', { class: 'chips' }, p.tags.map(t => h('span', { class: 'chip pk' }, '# ' + t))) : null;
-  return h('div', { class: 'head' }, h('div', { class: 'av-wrap' }, av, deco('s1', FLOWER.replace('fill="currentColor"','fill="currentColor" stroke="none"')), deco('s2', SPARK)), h('div', { class: 'hinfo' }, h('h1', { class: 'name disp' }, p.display_name || p.handle), h('div', { class: 'handle' }, '@' + p.handle), chips, tags));
+  return h('div', { class: 'head' }, h('div', { class: 'av-wrap' }, art('0 0 40 26', '<g transform="translate(40 0) scale(-1 1)">' + WING + '</g>', 'awl'), art('0 0 40 26', WING, 'awr'), art('0 0 40 14', HALO, 'ahalo'), av, deco('s2', SPARK)), h('div', { class: 'hinfo' }, h('h1', { class: 'name disp' }, p.display_name || p.handle), h('div', { class: 'handle' }, '@' + p.handle), chips, tags));
 }
 function linkCard(l, theme) {
   const url = safeUrl(l.url); if (!url) return null;
@@ -410,7 +416,7 @@ function editView(orig) {
   let avatarBlob = null;
   const err = h('div', { class: 'err' });
   // avatar
-  const avBox = h('div', { class: 'avatar' }); const paintAv = src => { avBox.replaceChildren(); if (src) avBox.append(h('img', { src, alt: '头像' })); else { const f = svgFrom(FLOWER); f.setAttribute('stroke', 'none'); f.style.width = '46%'; avBox.append(f); } };
+  const avBox = h('div', { class: 'avatar' }); const paintAv = src => { avBox.replaceChildren(); if (src) avBox.append(h('img', { src, alt: '头像' })); else avBox.append(art('0 0 48 30', WHEART, 'ph')); };
   paintAv(p.avatar_url);
   const file = h('input', { type: 'file', accept: 'image/*', hidden: true, async onchange() {
     try { avatarBlob = await makeAvatar(file.files[0]); paintAv(URL.createObjectURL(avatarBlob)); toast('头像已裁成正方形，保存后生效'); } catch (e) { toast(e.message); }
@@ -454,7 +460,7 @@ function editView(orig) {
     h('button', { class: 'ib tx', title: '斜体', style: 'font-style:italic', onclick: () => { restore(); document.execCommand('italic'); } }, 'I'),
     h('button', { class: 'ib tx', title: '清除颜色', onclick: () => { restore(); document.execCommand('removeFormat'); } }, '⌫'),
     h('i', { class: 'sep' }),
-    Object.keys(ICONS).map(k => h('button', { class: 'ib', title: '插入' + ICONS[k][0], 'data-ic': k, onclick: () => { restore(); const s = getSelection(); if (!s.rangeCount) return; const r = s.getRangeAt(0); r.deleteContents(); const ic = iconEl(k, true); r.insertNode(ic); r.setStartAfter(ic); r.collapse(true); s.removeAllRanges(); s.addRange(r); keep(); } }, svgFrom(ICONS[k][1]))));
+    Object.keys(ICONS).filter(k => k !== 'flower').map(k => h('button', { class: 'ib', title: '插入' + ICONS[k][0], 'data-ic': k, onclick: () => { restore(); const s = getSelection(); if (!s.rangeCount) return; const r = s.getRangeAt(0); r.deleteContents(); const ic = iconEl(k, true); r.insertNode(ic); r.setStartAfter(ic); r.collapse(true); s.removeAllRanges(); s.addRange(r); keep(); } }, svgFrom(ICONS[k][1]))));
   // links
   const linkBox = h('div');
   const paintLinks = () => linkBox.replaceChildren(...p.links.map((l, i) => {

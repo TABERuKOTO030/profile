@@ -172,3 +172,41 @@ body{background:linear-gradient(160deg,var(--g2) 0%,var(--bg) 45%,var(--g1) 100%
 @keyframes drift{50%{transform:translateX(18px)}}
 .card::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:.35;background:radial-gradient(circle,var(--f2) 1px,transparent 1.4px) 0 0/22px 22px;-webkit-mask:linear-gradient(180deg,#000,transparent 28%);mask:linear-gradient(180deg,#000,transparent 28%)}
 @media (max-width:600px){.bow{right:20px;width:48px;height:34px}.tape{width:70px;left:-8px}}
+/* ===== v4: angel wings / halos / feathers (flat) ===== */
+:root,[data-theme=sky]{--wing:#FFFFFF;--wing2:#DCEBF8;--halo:#F6E3A8;--heart:#F5B3CB}
+[data-theme=mint]{--wing:#FFFFFF;--wing2:#D4F0E5;--halo:#F6E3A8;--heart:#F4BBA6}
+[data-theme=lavender]{--wing:#FFFFFF;--wing2:#E4DEF7;--halo:#F6E3A8;--heart:#E6B3D5}
+[data-theme=peach]{--wing:#FFFFFF;--wing2:#FDE3D6;--halo:#F7DFA0;--heart:#F5B0A6}
+[data-theme=night]{--wing:#E9EEF8;--wing2:#9FB2D6;--halo:#F3DD9C;--heart:#E99AB8}
+.wb{fill:var(--wing)}.wa{fill:var(--wing2)}.ql{stroke:var(--wing2)}.hp{fill:var(--heart)}
+.hl{stroke:var(--halo)}
+svg.dh,svg.ahalo{filter:drop-shadow(0 0 4px var(--halo))}
+.flowers svg.fe,.flowers svg.wh{filter:drop-shadow(0 3px 6px rgba(120,140,180,.18))}
+.flowers svg.fe{animation:featherfall 11s ease-in-out infinite}
+.flowers svg.wh{animation:float 8s ease-in-out infinite;opacity:.9}
+@keyframes featherfall{0%,100%{transform:translate(0,0) rotate(-8deg)}50%{transform:translate(14px,16px) rotate(22deg)}}
+.av-wrap{padding:0 6px}
+.av-wrap svg.awl,.av-wrap svg.awr{position:absolute;top:30%;width:52px;height:34px;z-index:0;filter:drop-shadow(0 4px 6px rgba(120,140,180,.2));transform-origin:0 70%;animation:flap 3.2s ease-in-out infinite}
+.av-wrap svg.awr{right:-34px}
+.av-wrap svg.awl{left:-34px;transform:scaleX(-1);transform-origin:100% 70%;animation-name:flapl}
+@keyframes flap{50%{transform:rotate(-7deg)}}@keyframes flapl{50%{transform:scaleX(-1) rotate(-7deg)}}
+.av-wrap .avatar{z-index:1}
+.av-wrap svg.ahalo{position:absolute;left:50%;top:-14px;width:58px;height:20px;transform:translateX(-50%);z-index:2;animation:halo 3.2s ease-in-out infinite}
+@keyframes halo{50%{transform:translate(-50%,-3px)}}
+.av-wrap .s2{z-index:3}
+.avatar svg.ph{width:62%;height:auto}
+.head{padding-left:26px}
+.divider{gap:4px}
+.divider svg.dl,.divider svg.dr{width:30px;height:20px;color:inherit}
+.divider svg.dl{transform:scaleX(-1)}
+.divider svg.dh{width:26px;height:10px;margin:0 2px -6px}
+.divider svg.dl,.divider svg.dr,.divider svg.dh{filter:drop-shadow(0 2px 3px rgba(120,140,180,.25))}
+.bow{top:-20px;right:26px;width:74px;height:46px;filter:drop-shadow(0 4px 6px rgba(120,140,180,.25));animation:float 6s ease-in-out infinite}
+@media (max-width:600px){.head{padding-left:22px;gap:30px}.av-wrap svg.awl,.av-wrap svg.awr{width:44px;height:29px}.av-wrap svg.awr{right:-28px}.av-wrap svg.awl{left:-28px}.bow{width:62px;height:39px}}
+.av-wrap svg.awl,.av-wrap svg.awr{width:58px;height:38px;top:22%;filter:drop-shadow(0 3px 5px rgba(110,130,175,.32))}
+.av-wrap svg.awr{right:-46px}.av-wrap svg.awl{left:-46px}
+.head{padding-left:46px;gap:58px}
+@media (max-width:600px){.head{padding-left:38px;gap:46px}.av-wrap svg.awl,.av-wrap svg.awr{width:48px;height:31px}.av-wrap svg.awr{right:-38px}.av-wrap svg.awl{left:-38px}}
+.av-wrap svg.awl{transform:none;transform-origin:100% 70%;animation-name:flapl2}
+@keyframes flapl2{50%{transform:rotate(7deg)}}
+.divider svg.dl{transform:none}
