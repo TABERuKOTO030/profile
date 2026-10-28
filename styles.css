@@ -210,3 +210,8 @@ svg.dh,svg.ahalo{filter:drop-shadow(0 0 4px var(--halo))}
 .av-wrap svg.awl{transform:none;transform-origin:100% 70%;animation-name:flapl2}
 @keyframes flapl2{50%{transform:rotate(7deg)}}
 .divider svg.dl{transform:none}
+/* v5: 3-feather upward wings; no avatar wings */
+.head{padding-left:0;gap:24px}
+.divider svg.dl,.divider svg.dr{width:22px;height:22px}
+.divider svg.dh{margin:0 1px -10px}
+@media (max-width:600px){.head{padding-left:0;gap:16px}}

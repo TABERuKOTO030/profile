@@ -36,7 +36,7 @@ const ICONS = {
   heart: ['爱心', '<path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7a4.3 4.3 0 0 1 7.5 3c0 5.4-7.5 10-7.5 10z"/>'],
   star: ['星星', '<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>'],
   sparkle: ['闪光', '<path d="M11 3c.6 4.5 2.5 6.4 7 7-4.5.6-6.4 2.5-7 7-.6-4.5-2.5-6.4-7-7 4.5-.6 6.4-2.5 7-7zM19 15.5v5M16.5 18h5"/>'],
-  wing: ['翅膀', '<path d="M3 15c2-6 8-10 18-10-1 2.2-3 3.4-5.5 3.8 2 .3 3.4 1 4.5 2.2-2 1.2-4.3 1.6-6.7 1.5 1.3.8 2.2 1.8 2.7 3-3.6.8-7.6.2-10.5-1.4L3 15z"/>'],
+  wing: ['翅膀', '<g fill="currentColor" stroke="none"><path d="M0 0C-2.16 -5.40 -3.60 -9.90 -3.60 -14.40A3.6 3.6 0 0 1 3.6 -14.40C3.60 -9.90 2.16 -5.40 0 0Z" transform="translate(5 21.5) rotate(6)"/><path d="M0 0C-2.04 -4.35 -3.40 -7.98 -3.40 -11.10A3.4 3.4 0 0 1 3.4 -11.10C3.40 -7.98 2.04 -4.35 0 0Z" transform="translate(5.4 21.5) rotate(40)"/><path d="M0 0C-1.92 -3.30 -3.20 -6.05 -3.20 -7.80A3.2 3.2 0 0 1 3.2 -7.80C3.20 -6.05 1.92 -3.30 0 0Z" transform="translate(5.8 22) rotate(74)"/></g>'],
   halo: ['光环', '<ellipse cx="12" cy="9" rx="8" ry="3"/><path d="M12 15.5v4M10 17.5h4"/>'],
   music: ['音乐', '<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>'],
   camera: ['相机', '<rect x="3" y="7" width="18" height="13" rx="3"/><path d="M8.5 7l1.5-2.5h4L15.5 7"/><circle cx="12" cy="13.5" r="3.5"/>'],
@@ -176,17 +176,17 @@ function qrSvg(text, theme, plat) {
 
 /* ---------- Themes ---------- */
 const THEMES = {
-  sky: { name: '天空蓝粉', pv: ['#CFE6F7', '#F9DCE8', '#4FA6DE'], qr: '#3E6E9A', qrEye: '#D16F93' },
-  mint: { name: '薄荷奶糖', pv: ['#CDEFE3', '#FFE7D6', '#3E9E86'], qr: '#2F7462', qrEye: '#CA775E' },
-  lavender: { name: '薰衣草雾', pv: ['#DCD5F5', '#F8DDEB', '#7D6CC8'], qr: '#5A4C9C', qrEye: '#BA74A6' },
-  peach: { name: '蜜桃汽水', pv: ['#FFD9CC', '#FFE9C9', '#E0915A'], qr: '#8A4F45', qrEye: '#D4726A' },
-  night: { name: '夜空星河', pv: ['#233A55', '#3B3150', '#8CC7F0'], qr: '#2E3F5C', qrEye: '#C96D93' }
+  sky: { name: '天空蓝粉', pv: ['#CFE6F7', '#F9DCE8', '#4FA6DE'], qr: '#3E6E9A', qrEye: '#EF6195' },
+  mint: { name: '薄荷奶糖', pv: ['#CDEFE3', '#FFE7D6', '#3E9E86'], qr: '#2F7462', qrEye: '#EA663E' },
+  lavender: { name: '薰衣草雾', pv: ['#DCD5F5', '#F8DDEB', '#7D6CC8'], qr: '#5A4C9C', qrEye: '#DA62B6' },
+  peach: { name: '蜜桃汽水', pv: ['#FFD9CC', '#FFE9C9', '#E0915A'], qr: '#8A4F45', qrEye: '#EE6758' },
+  night: { name: '夜空星河', pv: ['#233A55', '#3B3150', '#8CC7F0'], qr: '#2E3F5C', qrEye: '#ED5A95' }
 };
 function applyTheme(t) { document.documentElement.dataset.theme = THEMES[t] ? t : 'sky'; drawFlowers(); }
-const WING = '<path class="wb" d="M2 18C6 6 20 1 38 3c-3 4-7 6-11 7 4 .5 7 2 9 4-4 2-8 2.5-12 2.5 3 1 5 2.5 6.5 4.5-5.5 1.5-11.5 1-16.5-.5-4 2.5-8 2.5-12-2.5z"/><path class="wa" d="M2 18C7 10 16 6.5 27 6c-3 2-6.5 3.5-10 4.3 3 .6 5.5 1.7 7.5 3.2-3.5 1.4-7 1.9-10.5 1.8 2 .9 3.6 2 4.8 3.4-4 .6-8 .3-11.8-.7z"/>';
+const WING = '<path class="wb" d="M0 0C-2.88 -6.90 -4.80 -12.65 -4.80 -18.20A4.8 4.8 0 0 1 4.8 -18.20C4.80 -12.65 2.88 -6.90 0 0Z" transform="translate(5 26) rotate(6)"/><path class="wa" d="M0 0C-2.76 -5.55 -4.60 -10.18 -4.60 -13.90A4.6 4.6 0 0 1 4.6 -13.90C4.60 -10.18 2.76 -5.55 0 0Z" transform="translate(5.5 26) rotate(38)"/><path class="wb" d="M0 0C-2.64 -4.20 -4.40 -7.70 -4.40 -9.60A4.4 4.4 0 0 1 4.4 -9.60C4.40 -7.70 2.64 -4.20 0 0Z" transform="translate(6 26.5) rotate(70)"/>';
 const HALO = '<ellipse class="hl" cx="20" cy="7" rx="16" ry="4.6" fill="none" stroke-width="3.2"/>';
 const FEATHER = '<path class="wb" d="M20 2C11 3 5 9.5 5 18.5 13 17.5 18.5 11 20 2z"/><path class="wa" d="M20 2C14 6 9 11 6.5 17.5 12 15 17 10 20 2z"/><path class="ql" d="M3 21.5 14.5 8" fill="none" stroke-width="1.4" stroke-linecap="round"/>';
-const WHEART = '<g class="wb"><path d="M34 14c3-6.5 8-8.5 13.5-8-1 2.5-3 3.6-5.5 4.2 2 .4 3.4 1.3 4.3 2.6-3.4 1.4-7 1.6-10.6 1.2z"/><path transform="translate(48 0) scale(-1 1)" d="M34 14c3-6.5 8-8.5 13.5-8-1 2.5-3 3.6-5.5 4.2 2 .4 3.4 1.3 4.3 2.6-3.4 1.4-7 1.6-10.6 1.2z"/></g><path class="hp" d="M24 27c-8-5.6-11-10-11-14a5.5 5.5 0 0 1 11-1.6A5.5 5.5 0 0 1 35 13c0 4-3 8.4-11 14z"/>';
+const WHEART = '' + '<g transform="translate(30.5 1.5) scale(.62)">' + WING + '</g><g transform="translate(17.5 1.5) scale(-.62 .62)">' + WING + '</g>' + '<path class="hp" d="M24 27c-8-5.6-11-10-11-14a5.5 5.5 0 0 1 11-1.6A5.5 5.5 0 0 1 35 13c0 4-3 8.4-11 14z"/>';
 function art(vb, markup, cls) { const s = document.createElementNS(SVGNS, 'svg'); s.setAttribute('viewBox', vb); s.setAttribute('aria-hidden', 'true'); if (cls) s.setAttribute('class', cls); s.innerHTML = markup; return s; }
 function drawFlowers() {
   const box = $('.flowers'); if (box.childNodes.length) return;
@@ -304,7 +304,7 @@ const BOW = '<path d="M12 12c-3-4-8-6-9.5-3.5S5 15 12 12zM12 12c3-4 8-6 9.5-3.5S
 const SPARK = '<path d="M12 2c.8 5.6 4.4 9.2 10 10-5.6.8-9.2 4.4-10 10-.8-5.6-4.4-9.2-10-10 5.6-.8 9.2-4.4 10-10z" fill="currentColor" stroke="none"/>';
 const CLOUD = '<path d="M6.5 19a4.5 4.5 0 0 1-.4-9A6 6 0 0 1 17.6 8.6 5.2 5.2 0 0 1 17.5 19z" fill="currentColor" stroke="none"/>';
 function deco(cls, markup) { const s = svgFrom(markup); s.setAttribute('class', 'deco ' + cls); s.setAttribute('aria-hidden', 'true'); return s; }
-function divider() { return h('div', { class: 'divider', 'aria-hidden': 'true' }, h('i'), art('0 0 40 26', '<g transform="translate(40 0) scale(-1 1)">' + WING + '</g>', 'dl'), art('0 0 40 14', HALO, 'dh'), art('0 0 40 26', WING, 'dr'), h('i')); }
+function divider() { return h('div', { class: 'divider', 'aria-hidden': 'true' }, h('i'), art('0 0 28 28', '<g transform="translate(28 0) scale(-1 1)">' + WING + '</g>', 'dl'), art('0 0 40 14', HALO, 'dh'), art('0 0 28 28', WING, 'dr'), h('i')); }
 function shell(tabs, body) { return h('div', { class: 'view' }, h('nav', { class: 'tabs' }, tabs), h('section', { class: 'card' }, h('span', { class: 'deco tape', 'aria-hidden': 'true' }), art('0 0 48 30', WHEART, 'deco bow'), body)); }
 function tab(label, on, onclick) { return h('button', { class: 'tab' + (on ? ' on' : ''), onclick }, on ? h('i', { class: 'dot' }) : null, label); }
 function msgView(t, d) { applyTheme('sky'); return shell([tab('NOTICE', true)], h('div', { class: 'hero' }, h('h1', { class: 'disp' }, t), h('p', null, d), h('button', { class: 'btn main', onclick: () => location.hash = '#/' }, '回到首页'))); }
@@ -399,7 +399,7 @@ function headBlock(p) {
   if (g) chips.append(h('span', { class: 'chip' }, g));
   if (p.birthday) { chips.append(h('span', { class: 'chip' }, iconEl('cal'), bdayText(p.birthday, p.show_year)), h('span', { class: 'chip pk' }, iconEl('star'), zodiac(p.birthday))); }
   const tags = (p.tags || []).length ? h('div', { class: 'chips' }, p.tags.map(t => h('span', { class: 'chip pk' }, '# ' + t))) : null;
-  return h('div', { class: 'head' }, h('div', { class: 'av-wrap' }, art('0 0 40 26', '<g transform="translate(40 0) scale(-1 1)">' + WING + '</g>', 'awl'), art('0 0 40 26', WING, 'awr'), art('0 0 40 14', HALO, 'ahalo'), av, deco('s2', SPARK)), h('div', { class: 'hinfo' }, h('h1', { class: 'name disp' }, p.display_name || p.handle), h('div', { class: 'handle' }, '@' + p.handle), chips, tags));
+  return h('div', { class: 'head' }, h('div', { class: 'av-wrap' }, art('0 0 40 14', HALO, 'ahalo'), av, deco('s2', SPARK)), h('div', { class: 'hinfo' }, h('h1', { class: 'name disp' }, p.display_name || p.handle), h('div', { class: 'handle' }, '@' + p.handle), chips, tags));
 }
 function linkCard(l, theme) {
   const url = safeUrl(l.url); if (!url) return null;
@@ -525,5 +525,5 @@ if (qs && !location.hash) location.hash = '#/u/' + qs.toLowerCase();
 window.addEventListener('hashchange', () => { S.preview = null; route(); });
 drawFlowers();
 route();
-window.__pp = { DEMO, qrSvg, sanitize, serialize, safeUrl, platformOf, THEMES };
+window.__pp = { DEMO, art, WING, WHEART, HALO, ICONS, qrSvg, sanitize, serialize, safeUrl, platformOf, THEMES };
 })();
